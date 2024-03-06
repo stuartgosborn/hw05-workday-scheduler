@@ -28,6 +28,7 @@ THEN the saved events persist
 ```
 
 ## Screen Shot
+![alt text](image.png)  
 
 ## Links
 
