@@ -2,39 +2,34 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  // TODO: Add a listener for click events on the save button. This code should
+  const timeBlocksParent = document.getElementById("time-blocks-parent");
+  // Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  let saveButtonArr = document.querySelectorAll('.saveBtn')
+  // local storage. 
+  let saveButtonArr = document.querySelectorAll(".saveBtn");
   console.log(saveButtonArr);
-  for (let i = 0; i < saveButtonArr.length; i++){
-    saveButtonArr[i].addEventListener('click', saveEvents)
-  };
-
-  function saveEvents(event){
-    console.log('Event Saved');
-    console.log(event)
-    let timeBlockId = this.parentElement.getAttribute('id');
-    console.log(timeBlockId);
-    let timeBlockText = document.getElementById(`${timeBlockId}`).getElementsByTagName('textarea')[0].value
-    console.log(timeBlockText);
-    localStorage.setItem(`${timeBlockId}`, `${timeBlockText}`)
+  for (let i = 0; i < saveButtonArr.length; i++) {
+    saveButtonArr[i].addEventListener("click", saveEvents);
   }
 
+  function saveEvents(event) {
+    console.log("Event Saved");
+    console.log(event);
+    let timeBlockId = this.parentElement.getAttribute("id");
+    console.log(timeBlockId);
+    let timeBlockText = document
+      .getElementById(`${timeBlockId}`)
+      .getElementsByTagName("textarea")[0]
+      .value.trim();
+    console.log(timeBlockText);
+    localStorage.setItem(`${timeBlockId}`, `${timeBlockText}`);
+  }
 
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
+  // Add code to apply the past, present, or future class to each time
+  // block by comparing the id to the current hour. 
 
   function colorCodeBlocks() {
     // select time blocks parent element
-    const timeBlocksParent = document.getElementById("time-blocks-parent");
     // create an array of the time blocks parent's children
     const timeBlocksArr = [...timeBlocksParent.children];
 
@@ -60,14 +55,30 @@ $(function () {
     }
   }
   colorCodeBlocks();
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
   
+  //Add code to get any user input that was saved in localStorage and set
+  // the values of the corresponding textarea elements. 
+  function loadEvents() {
+    // create array of timeblocks to loop through
+    const timeBlocksArr = [...timeBlocksParent.children];
 
-  // TODO: Add code to display the current date in the header of the page.
+    for (let i = 0; i <= 8; i++) {
+      let timeBlockId = timeBlocksArr[i].getAttribute("id");
+      // select the time block
+      let timeBlockText = document
+        .getElementById(timeBlockId)
+        .getElementsByTagName("textarea");
+
+      // retrive stored data from local storage
+      let eventText = localStorage.getItem(timeBlockId);
+
+      // set the retrived data in the respective time block according to the key
+      timeBlockText[0].value = eventText;
+    }
+  }
+
+  loadEvents();
+  //Add code to display the current date in the header of the page.
   var today = dayjs();
   var dayWeek = today.format("dddd");
   $("#currentDay").text(`${dayWeek} ${today.format("MMM D, YYYY")}`);
