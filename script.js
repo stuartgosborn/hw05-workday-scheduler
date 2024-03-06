@@ -2,7 +2,6 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -10,52 +9,66 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
+  let saveButtonArr = document.querySelectorAll('.saveBtn')
+  console.log(saveButtonArr);
+  for (let i = 0; i < saveButtonArr.length; i++){
+    saveButtonArr[i].addEventListener('click', saveEvents)
+  };
+
+  function saveEvents(event){
+    console.log('Event Saved');
+    console.log(event)
+    let timeBlockId = this.parentElement.getAttribute('id');
+    console.log(timeBlockId);
+    let timeBlockText = document.getElementById(`${timeBlockId}`).getElementsByTagName('textarea')[0].value
+    console.log(timeBlockText);
+    localStorage.setItem(`${timeBlockId}`, `${timeBlockText}`)
+  }
+
+
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
-  
+
   function colorCodeBlocks() {
     // select time blocks parent element
-    const timeBlocksParent = document.getElementById('time-blocks-parent');
+    const timeBlocksParent = document.getElementById("time-blocks-parent");
     // create an array of the time blocks parent's children
-    const timeBlocksArr = [...timeBlocksParent.children]
-    
-    
+    const timeBlocksArr = [...timeBlocksParent.children];
+
     // Select the block elements
-    
+
     // Compare each time block's time id to the current hour, and if less than than add past class, if equal add present class, if less than add future class
-    for (let i = 0; i <= 8; i++){
+    for (let i = 0; i <= 8; i++) {
       // get current hour
       const currentTime = dayjs().$H;
       // get each block element id
-      const timeBlockId = timeBlocksArr[i].getAttribute('id');
+      const timeBlockId = timeBlocksArr[i].getAttribute("id");
       // select each block element
       const timeBlock = document.getElementById(`${timeBlockId}`);
-     
+
       // add respective past, present, future class to block element
-      if (timeBlockId < currentTime ){
-        timeBlock.classList.add('past')
-      } else if (timeBlockId == currentTime){
-        timeBlock.classList.add('present')
+      if (timeBlockId < currentTime) {
+        timeBlock.classList.add("past");
+      } else if (timeBlockId == currentTime) {
+        timeBlock.classList.add("present");
       } else {
-        timeBlock.classList.add('future')
+        timeBlock.classList.add("future");
       }
-
-
     }
-
   }
-
   colorCodeBlocks();
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  
+
   // TODO: Add code to display the current date in the header of the page.
   var today = dayjs();
-  var dayWeek = today.format('dddd');
-$('#currentDay').text(`${dayWeek} ${today.format('MMM D, YYYY')}`);
+  var dayWeek = today.format("dddd");
+  $("#currentDay").text(`${dayWeek} ${today.format("MMM D, YYYY")}`);
 });
