@@ -26,3 +26,14 @@ THEN the text for that event is saved in local storage
 WHEN I refresh the page
 THEN the saved events persist
 ```
+
+## Screen Shot
+
+## Links
+
+GitHub Repository:  
+https://github.com/stuartgosborn/hw05-workday-scheduler  
+
+Deployed Site:  
+https://stuartgosborn.github.io/hw05-workday-scheduler/  
+
